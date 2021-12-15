@@ -1,34 +1,33 @@
 package org.example;
 
-public class Student {
+import javax.persistence.*;
 
-    private String id;
+@Entity
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String firstname;
     private String lastname;
     private String email;
     private String stad;
-    private String grade;
+    @ManyToOne
+    @JoinColumn(name = "education_id")
+    private Education education;
 
     public Student() {
     }
 
-    public Student(String id, String firstname, String lastname, String email, String stad, String grade) {
-        this.id = id;
+    public Student(String firstname, String lastname, String email, String stad, Education education) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.stad = stad;
-        this.grade = grade;
+        this.education = education;
     }
 
-
-
-    public String getId() {
+    public int getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getFirstname() {
@@ -38,7 +37,6 @@ public class Student {
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
-
 
     public String getLastname() {
         return lastname;
@@ -64,13 +62,13 @@ public class Student {
         this.stad = stad;
     }
 
-
-    public String getGrade() {
-        return grade;
+    public void setEducation(Education education) {
+        this.education = education;
     }
 
-    public void setGrade(String grade) {
-        this.grade = grade;
+    public Education getEducation() {
+        return education;
+
     }
 
     @Override
@@ -81,7 +79,7 @@ public class Student {
                 ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +
                 ", stad='" + stad + '\'' +
-                ", grade='" + grade + '\'' +
+                ", education=" + education +
                 '}';
     }
 }

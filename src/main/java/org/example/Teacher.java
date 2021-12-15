@@ -1,32 +1,33 @@
 package org.example;
 
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
+@Entity
 public class Teacher {
-    private String id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String firstname;
     private String lastname;
-
     @ManyToMany(targetEntity = Course.class)
-    private List<Course> course;
+    private Set courseSet;
 
-    public Teacher(String enu, String eddie, String nuemann) {
+    public Teacher(){
+        super();
     }
 
 
-    public Teacher(String id, String firstname, String lastname, List<Course> course) {
-        this.id = id;
+    public Teacher(String firstname, String lastname,Set courseSet) {
+        super();
         this.firstname = firstname;
         this.lastname = lastname;
-        this.course = course;
+        this.courseSet=courseSet;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -46,12 +47,12 @@ public class Teacher {
         this.lastname = lastname;
     }
 
-    public List<Course> getCourse() {
-        return course;
+    public Set getCourseSet() {
+        return courseSet;
     }
 
-    public void setCourse(List<Course> course) {
-        this.course = course;
+    public void setCourseSet(Set courseSet) {
+        this.courseSet = courseSet;
     }
 
     @Override
@@ -60,7 +61,6 @@ public class Teacher {
                 "id=" + id +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
-                ", course=" + course +
                 '}';
     }
 }
