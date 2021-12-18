@@ -38,8 +38,8 @@ public class Education {
     }
 
     public void setCourseList(List<Course> courseList) {
-        this.courseList = courseList;
-    }
+      this.courseList = courseList;
+   }
 
     @Override
     public String toString() {

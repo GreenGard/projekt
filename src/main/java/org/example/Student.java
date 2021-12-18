@@ -11,10 +11,10 @@ public class Student {
     private String lastname;
     private String email;
     private String stad;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "education_id")
     private Education education;
-
+//foregn key till education o sedan kunna ta ut elever i en klass
     public Student() {
     }
 

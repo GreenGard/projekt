@@ -6,6 +6,7 @@
         <class>org.example.Student</class>
         <class>org.example.Course</class>
         <class>org.example.Education</class>
+        <class>org.example.EducationDAOImpl</class>
         <class>org.example.Teacher</class>
 
         <properties>

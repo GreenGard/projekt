@@ -8,9 +8,18 @@ import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {
+
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpa");
         EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
+        Menu.menu();
+        // Lägga till kurser till en utbildning i course many to many
+//unique id på educaion o ev course
+//Ta bort kurser från en utbildning
+//Ta bort en studenter från utbildningar
+//Lista alla studenter i en utbildning
+//VG: Statistiken hur många elever som var anmälda till varje kur-populäst kurs
+
+        /*em.getTransaction().begin();
 
 
         Education education1=new Education("Javautvecklare");
@@ -39,12 +48,12 @@ public class Main {
         em.persist(teacher1);
         em.persist(teacher2);
         em.persist(teacher3);
-                Student student1=new Student("Madelene","Axblom","madelene.axblom@iths.se","Göteborg",education1);
+        Student student1=new Student("Madelene","Axblom","madelene.axblom@iths.se","Göteborg",education1);
 
-    em.persist(student1);
+        em.persist(student1);
+*/
 
-
-    em.getTransaction().commit();
+    //em.getTransaction().commit();
     em.close();
     }
 }
