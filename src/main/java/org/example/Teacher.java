@@ -1,7 +1,6 @@
 package org.example;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,8 +18,8 @@ public class Teacher {
 
     @ManyToMany(targetEntity = Course.class,cascade = CascadeType.REMOVE)
     private List course;
-    public Teacher() {
 
+    public Teacher() {
     }
 
     public Teacher(String firstName, String lastName, List course) {
@@ -40,7 +39,6 @@ public class Teacher {
     public void clearList(List<Course> list) {
         list.clear();
     }
-
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -77,7 +75,6 @@ public class Teacher {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-
                 '}';
     }
 }

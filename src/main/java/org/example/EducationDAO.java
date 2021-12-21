@@ -4,7 +4,7 @@ public interface EducationDAO {
     public void create(Education education);
     public void update(Education education);
     public void findAll();
-    public void  sortByEducation();
+    public void sortByEducation();
     public void delete(Education education);
-    public void getCourseByEducation(Education education);
+
 }

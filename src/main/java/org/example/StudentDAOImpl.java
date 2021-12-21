@@ -50,7 +50,7 @@ public class StudentDAOImpl implements StudentDAO {
         em = emf.createEntityManager();
         et = em.getTransaction();
         et.begin();
-        System.out.println("Ange id för update");
+        System.out.println("Enter Student id for update");
         infotwo = scanner.nextInt();
         System.out.println("Update name");
         String newName = scanner.next();
@@ -77,7 +77,6 @@ public class StudentDAOImpl implements StudentDAO {
         em.getTransaction().commit();
     }
 
-
     @Override
     public void findAll() {
         String jql = "SELECT b FROM Student as b order by b.id";
@@ -87,7 +86,7 @@ public class StudentDAOImpl implements StudentDAO {
 
     @Override
     public void sortByStudent() {
-        System.out.println("Ange student");
+        System.out.println("Enter Student");
         info = scanner.next();
         TypedQuery<Student> query = em.createQuery("SELECT s FROM Student s WHERE s.firstname LIKE :name", Student.class);
         query.setParameter("name", "%" + info + "%");
@@ -98,7 +97,7 @@ public class StudentDAOImpl implements StudentDAO {
     public void delete(Student student) {
         em.getTransaction();
         et.begin();
-        System.out.println("Ange id för delete");
+        System.out.println("Enter Student id for delete");
         infotwo = scanner.nextInt();
         student = em.find(Student.class, infotwo);
         em.remove(student);

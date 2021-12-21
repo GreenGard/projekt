@@ -24,7 +24,7 @@ public class EducationDAOImpl implements EducationDAO {
         em.getTransaction().begin();
         System.out.println("Enter education name");
         info = scanner.nextLine();
-        System.out.println("enter city");
+        System.out.println("Enter city");
         info2 = scanner.nextLine();
         education.setName(info);
         education.setStad(info2);
@@ -49,7 +49,6 @@ public class EducationDAOImpl implements EducationDAO {
         education.setStad(newCity);
         em.merge(education);
         em.getTransaction().commit();
-        //et.commit();
     }
 
     @Override
@@ -80,20 +79,6 @@ public class EducationDAOImpl implements EducationDAO {
         em.getTransaction().commit();
     }
 
-    public void getCourseByEducation(Education education) {
-        EntityManager em = emf.createEntityManager();
-        System.out.println("Choose Education by name");
-        info = scanner.next();
-        String query = String.format("select e, c from  Education as e, Course as c where c.education = e.id and e.name= '%s'", info);
-        List<Object[]> results = em.createQuery(query).getResultList();
-
-        for (Object[] tables : results) {
-            Education e = (Education) tables[0];
-            Course c = (Course) tables[1];
-            System.out.println(e.getName() + " " + c.getNameCourse());
-        }
-    }
-
     public void getAllStudentsByEducation() {
         EntityManager em = emf.createEntityManager();
         System.out.println("Choose Education by name");
@@ -114,7 +99,7 @@ public class EducationDAOImpl implements EducationDAO {
         List<Object[]> results = em.createQuery(query).getResultList();
 
         for (Object[] tables : results) {
-            System.out.println(" Amount of Students " + tables[1] + " " + tables[0].toString());
+            System.out.println("Amount of Students " + tables[1] + " " + tables[0].toString());
         }
     }
 }

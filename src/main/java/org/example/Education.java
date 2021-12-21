@@ -1,7 +1,6 @@
 package org.example;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,17 +14,16 @@ public class Education {
     private String name;
     private String stad;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "education_id")
-    private List<Course> courses = new ArrayList<>();
+    @ManyToMany(targetEntity =Course.class,cascade = CascadeType.REMOVE)
+    private List course;
 
     public Education() {
     }
 
-    public Education(String name, String stad, List<Course> courses) {
+    public Education(String name, String stad, List course) {
         this.name = name;
         this.stad = stad;
-        this.courses = courses;
+        this.course = course;
     }
 
     public Integer getId() {
@@ -52,12 +50,12 @@ public class Education {
         this.stad = stad;
     }
 
-    public List<Course> getCourses() {
-        return courses;
+    public List getCourse() {
+        return course;
     }
 
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
+    public void setCourse(List course) {
+        this.course = course;
     }
 
     @Override
@@ -66,6 +64,7 @@ public class Education {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", stad='" + stad + '\'' +
+                ", course=" + course +
                 '}';
     }
 }

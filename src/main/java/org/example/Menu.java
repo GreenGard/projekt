@@ -50,9 +50,8 @@ public class Menu {
                     "\n3: Sort by Education" +
                     "\n4: Show all" +
                     "\n5: Delete Education" +
-                    "\n6: List courses / Education" +
-                    "\n7: List all students in selected Education" +
-                    "\n8: Education statistics" +
+                    "\n6: List all students in selected Education" +
+                    "\n7: Education statistics" +
                     "\nq: Go back to startMenu");
             choice = scanner.nextLine().toUpperCase();
 
@@ -73,12 +72,9 @@ public class Menu {
                     educationDAOImpl.delete(education);
                     break;
                 case "6":
-                    educationDAOImpl.getCourseByEducation(education);
-                    break;
-                case "7":
                     educationDAOImpl.getAllStudentsByEducation();
                     break;
-                case "8":
+                case "7":
                     educationDAOImpl.popularEducation();
                     break;
                 default:
@@ -137,6 +133,7 @@ public class Menu {
             System.out.println("3: View Student info");
             System.out.println("4: Show all");
             System.out.println("5: Delete Student");
+            System.out.println("Q: Go back to startMenu");
             choice = scanner.nextLine().toUpperCase();
 
             switch (choice) {
@@ -178,6 +175,7 @@ public class Menu {
             System.out.println("5: Add Course to Teacher");
             System.out.println("6: Remove Course from Teacher");
             System.out.println("7: Delete Teacher");
+            System.out.println("Q: Go back to startMenu");
             choice = scanner.nextLine().toUpperCase();
 
             switch (choice) {

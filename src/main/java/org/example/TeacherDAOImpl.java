@@ -31,18 +31,20 @@ public class TeacherDAOImpl implements TeacherDAO {
         em.getTransaction().commit();
     }
 
-
     @Override
     public void update(Teacher teacher) {
         emf = Persistence.createEntityManagerFactory("jpa");
         em = emf.createEntityManager();
         em.getTransaction().begin();
-        System.out.println("Ange id för update");
+        System.out.println("Enter teacher id for update");
         infotwo = scanner.nextInt();
-        System.out.println("Ange nytt namn för update");
+        System.out.println("Enter new firstname");
         String newName = scanner.next();
+        System.out.println("Enter new lastname");
+        String newLastName = scanner.next();
         teacher = em.find(Teacher.class, infotwo);
         teacher.setFirstName(newName);
+        teacher.setLastName(newLastName);
         em.merge(teacher);
         em.getTransaction().commit();
     }
@@ -56,7 +58,7 @@ public class TeacherDAOImpl implements TeacherDAO {
 
     @Override
     public void sortByTeacher() {
-        System.out.println("Ange lärare");
+        System.out.println("Enter Teacher");
         info = scanner.next();
         TypedQuery<Teacher> query = em.createQuery("SELECT s FROM Teacher s WHERE s.firstName LIKE :name", Teacher.class);
         query.setParameter("name", "%" + info + "%");
@@ -70,11 +72,8 @@ public class TeacherDAOImpl implements TeacherDAO {
         System.out.println("Enter id for teacher");
         infotwo = scanner.nextInt();
         teacher = em.find(Teacher.class, infotwo);
-        //   List<Course> courses = teacher.getCourses();
-        //courses.forEach(course -> em.merge(course));
         em.remove(teacher);
         em.getTransaction().commit();
-
     }
 
     public void addCourseToTeacher() {
@@ -86,20 +85,11 @@ public class TeacherDAOImpl implements TeacherDAO {
         infotwo = scanner.nextInt();
         Course course = em.find(Course.class, infotwo);
         Teacher teacher = em.find(Teacher.class, teacherId);
-         List<Course> courseList = teacher.getCourse();
-         courseList.add(course);
-         teacher.setCourse(courseList);
+        List<Course> courseList = teacher.getCourse();
+        courseList.add(course);
+        teacher.setCourse(courseList);
         em.persist(teacher);
         em.getTransaction().commit();
-    }
-
-    @Override
-    public void deleteFromCourse(int teacherId, int courseId) {
-    }
-
-    @Override
-    public List<Teacher> getByEducation(int educationId) {
-        return null;
     }
 
     public void deleteCourseFromTeacher() {

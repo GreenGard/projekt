@@ -22,13 +22,8 @@ public class CourseDAOImpl implements CourseDAO {
         em.getTransaction().begin();
         System.out.println("Enter new course");
         info = scanner.nextLine();
-        System.out.println("Enter id to connect education");
-        infotwo = scanner.nextInt();
-        Education education = em.find(Education.class, infotwo);
         course.setNameCourse(info);
-        course.setEducation(education);
         em.persist(course);
-        em.persist(education);
         em.getTransaction().commit();
     }
 
@@ -38,7 +33,7 @@ public class CourseDAOImpl implements CourseDAO {
         em = emf.createEntityManager();
         et = em.getTransaction();
         et.begin();
-        System.out.println("Enter id for update");
+        System.out.println("Enter course id for update");
         infotwo = scanner.nextInt();
         System.out.println("Update name for course-no whitespace");
         String newName = scanner.next();
@@ -46,8 +41,8 @@ public class CourseDAOImpl implements CourseDAO {
         int newEducation = scanner.nextInt();
         course = em.find(Course.class, infotwo);
         Education education = em.find(Education.class, newEducation);
+        education.getCourse().add(course);
         course.setNameCourse(newName);
-        course.setEducation(education);
         em.merge(course);
         em.merge(education);
         em.getTransaction().commit();
@@ -61,7 +56,6 @@ public class CourseDAOImpl implements CourseDAO {
         et.begin();
         System.out.println("Enter id to connect to education");
         infotwo = scanner.nextInt();
-
         String newName = scanner.next();
         course = em.find(Course.class, infotwo);
         course.setNameCourse(newName);
@@ -92,7 +86,6 @@ public class CourseDAOImpl implements CourseDAO {
         infotwo = scanner.nextInt();
         course = em.find(Course.class, infotwo);
         em.remove(course);
-        //et.commit();
         em.getTransaction().commit();
     }
 }

@@ -1,10 +1,6 @@
 package org.example;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "course")
@@ -13,31 +9,17 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
-
     private String nameCourse;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
-
-    @JoinColumn(name ="education_id")
-    private Education education;
-
-
     public Course() {
-
     }
 
-    public Course( String nameCourse, Education education) {
-
+    public Course( String nameCourse) {
         this.nameCourse = nameCourse;
-        this.education = education;
     }
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getNameCourse() {
@@ -48,22 +30,11 @@ public class Course {
         this.nameCourse = nameCourse;
     }
 
-    public Education getEducation() {
-        return education;
-    }
-
-    public void setEducation(Education education) {
-        this.education = education;
-    }
-
     @Override
     public String toString() {
         return "Course{" +
                 "id=" + id +
                 ", nameCourse='" + nameCourse + '\'' +
-                ", education=" + education +
                 '}';
     }
 }
-
-
