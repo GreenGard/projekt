@@ -1,38 +1,43 @@
 package org.example;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
+@Table(name = "course")
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String nameCourse;
-    @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "education_id")
-    private Education education;
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
-    @ManyToMany(targetEntity = Teacher.class)
-    private Set teacherSet;
+    private String nameCourse;
+
+    @ManyToOne(cascade = CascadeType.REMOVE)
+
+    @JoinColumn(name ="education_id")
+    private Education education;
 
 
     public Course() {
-        super();
+
     }
 
-    public Course(String nameCourse, Education education, Set teacherSet) {
+    public Course( String nameCourse, Education education) {
+
         this.nameCourse = nameCourse;
         this.education = education;
-        this.teacherSet = teacherSet;
     }
 
-    public Education getEducation() {
-        return education;
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNameCourse() {
@@ -43,16 +48,12 @@ public class Course {
         this.nameCourse = nameCourse;
     }
 
+    public Education getEducation() {
+        return education;
+    }
+
     public void setEducation(Education education) {
         this.education = education;
-    }
-
-    public Set getTeacherSet() {
-        return teacherSet;
-    }
-
-    public void setTeacherSet(Set teacherSet) {
-        this.teacherSet = teacherSet;
     }
 
     @Override
@@ -60,6 +61,7 @@ public class Course {
         return "Course{" +
                 "id=" + id +
                 ", nameCourse='" + nameCourse + '\'' +
+                ", education=" + education +
                 '}';
     }
 }

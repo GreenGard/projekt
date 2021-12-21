@@ -1,7 +1,6 @@
 package org.example;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Scanner;
 
 public class CourseDAOImpl implements CourseDAO {
@@ -11,108 +10,89 @@ public class CourseDAOImpl implements CourseDAO {
     Scanner scanner = new Scanner(System.in);
 
     String info = " ";
-    String infosecond = " ";
     Integer infotwo = 0;
-    Integer infothree = 0;
 
     public CourseDAOImpl() {
         emf = Persistence.createEntityManagerFactory("jpa");
         em = emf.createEntityManager();
     }
 
-    /////////////////lägg till fler val att lägga till
     @Override
     public void create(Course course) {
         em.getTransaction().begin();
-        System.out.println("Skriv in ny kurs");
+        System.out.println("Enter new course");
         info = scanner.nextLine();
-        System.out.println("Skriv in id för Education");
+        System.out.println("Enter id to connect education");
         infotwo = scanner.nextInt();
+        Education education = em.find(Education.class, infotwo);
         course.setNameCourse(info);
-        course.setEducation(course.getEducation());
+        course.setEducation(education);
         em.persist(course);
+        em.persist(education);
         em.getTransaction().commit();
     }
 
-
     @Override
     public void update(Course course) {
-        try {
-            emf = Persistence.createEntityManagerFactory("jpa");
-            em = emf.createEntityManager();
-            et = em.getTransaction();
-            et.begin();
-            System.out.println("Ange id för update");
-            infotwo = scanner.nextInt();
-            System.out.println("Ange nytt namn för update");
-            String newName = scanner.next();
-            course = em.find(Course.class, infotwo);
-            course.setNameCourse(newName);
-            et.commit();
-        } catch (Exception e) {
-            et.rollback();
-        } finally {
-            em.close();
-            emf.close();
-        }
+        emf = Persistence.createEntityManagerFactory("jpa");
+        em = emf.createEntityManager();
+        et = em.getTransaction();
+        et.begin();
+        System.out.println("Enter id for update");
+        infotwo = scanner.nextInt();
+        System.out.println("Update name for course-no whitespace");
+        String newName = scanner.next();
+        System.out.println("Update Education by id to Course");
+        int newEducation = scanner.nextInt();
+        course = em.find(Course.class, infotwo);
+        Education education = em.find(Education.class, newEducation);
+        course.setNameCourse(newName);
+        course.setEducation(education);
+        em.merge(course);
+        em.merge(education);
+        em.getTransaction().commit();
     }
 
     @Override
     public void connectToEducation(Course course) {
-        try {
-            emf = Persistence.createEntityManagerFactory("jpa");
-            em = emf.createEntityManager();
-            et = em.getTransaction();
-            et.begin();
-            System.out.println("Ange id att koppla till utbildning");
-            infotwo = scanner.nextInt();
+        emf = Persistence.createEntityManagerFactory("jpa");
+        em = emf.createEntityManager();
+        et = em.getTransaction();
+        et.begin();
+        System.out.println("Enter id to connect to education");
+        infotwo = scanner.nextInt();
 
-            String newName = scanner.next();
-            course = em.find(Course.class, infotwo);
-            course.setNameCourse(newName);
-            et.commit();
-        } catch (Exception e) {
-            et.rollback();
-        } finally {
-            em.close();
-            emf.close();
-        }
+        String newName = scanner.next();
+        course = em.find(Course.class, infotwo);
+        course.setNameCourse(newName);
+        et.commit();
     }
 
     @Override
-    public List<Course> findAll() {
+    public void findAll() {
         String jql = "SELECT b FROM Course as b order by b.id";
         Query query = em.createQuery(jql);
         System.out.println(query.getResultList());
-        return null;
     }
 
     @Override
-    public List<Course> sortByCourse() {
-        System.out.println("Ange kurs");
+    public void sortByCourse() {
+        System.out.println("Enter course");
         info = scanner.next();
         TypedQuery<Course> query = em.createQuery("SELECT s FROM Course s WHERE s.nameCourse LIKE :name", Course.class);
         query.setParameter("name", "%" + info + "%");
         System.out.println(query.getResultList());
-        return null;
     }
 
     @Override
     public void delete(Course course) {
-        try {
-            et = em.getTransaction();
-            et.begin();
-            System.out.println("Ange id för delete");
-            infotwo = scanner.nextInt();
-            course = em.find(Course.class, infotwo);
-            em.remove(course);
-            et.commit();
-        } catch (Exception e) {
-            et.rollback();
-        } finally {
-            em.close();
-            emf.close();
-
-        }
+        et = em.getTransaction();
+        et.begin();
+        System.out.println("Enter id to delete");
+        infotwo = scanner.nextInt();
+        course = em.find(Course.class, infotwo);
+        em.remove(course);
+        //et.commit();
+        em.getTransaction().commit();
     }
 }

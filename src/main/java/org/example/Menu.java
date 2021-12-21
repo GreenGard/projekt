@@ -1,35 +1,35 @@
 package org.example;
 
-import java.sql.SQLException;
-import java.util.Scanner;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
     static Scanner scanner = new Scanner(System.in);
 
     public static void menu() {
-        String choice = " ";
+        String choice = "";
         do {
-            System.out.println("Menu options: ");
-            System.out.println("A: Education");
-            System.out.println("B: Course");
-            System.out.println("C: Student");
-            System.out.println("D: Teacher");
-            System.out.println("q: Quit");
+            System.out.println("Menu options:" +
+                    "\n1: Education"+
+                    "\n2: Course"+
+                    "\n3: Student"+
+                    "\n4: Teacher" +
+                    "\nq: Quit");
             choice = scanner.nextLine().toUpperCase();
+
             switch (choice) {
-                case "A":
-                    educationmenu();
+                case "1":
+                    educationMenu();
                     break;
-                case "B":
-                    coursemenu();
+                case "2":
+                    courseMenu();
                     break;
-                case "C":
-                    studentmenu();
+                case "3":
+                    studentMenu();
                     break;
-                case "D":
-                    //teachermenu();
+                case "4":
+                    teacherMenu();
                     break;
                 default:
                     if (!choice.equals("Q"))
@@ -39,19 +39,23 @@ public class Menu {
         } while (!choice.equals("Q"));
     }
 
-    private static void educationmenu() {
-        String choice = " ";
+    private static void educationMenu() {
+        String choice = "";
         Education education = new Education();
         EducationDAOImpl educationDAOImpl = new EducationDAOImpl();
+
         do {
-            System.out.println("1: Add Education");
-            System.out.println("2: Update Education");
-            System.out.println("3: Show by Education");
-            System.out.println("4: Show all info for Educations");
-            System.out.println("5: Delete Education");
-            System.out.println("6: List all courser per Education");
-            System.out.println("q: Go back to startmenu");
+            System.out.println("1: Add Education" +
+                    "\n2: Update Education" +
+                    "\n3: Sort by Education" +
+                    "\n4: Show all" +
+                    "\n5: Delete Education" +
+                    "\n6: List courses / Education" +
+                    "\n7: List all students in selected Education" +
+                    "\n8: Education statistics" +
+                    "\nq: Go back to startMenu");
             choice = scanner.nextLine().toUpperCase();
+
             switch (choice) {
                 case "1":
                     educationDAOImpl.create(education);
@@ -71,6 +75,12 @@ public class Menu {
                 case "6":
                     educationDAOImpl.getCourseByEducation(education);
                     break;
+                case "7":
+                    educationDAOImpl.getAllStudentsByEducation();
+                    break;
+                case "8":
+                    educationDAOImpl.popularEducation();
+                    break;
                 default:
                     if (!choice.equals("Q"))
                         System.out.println("Unexpected value, please try again");
@@ -79,34 +89,34 @@ public class Menu {
     }
 
 
-    private static void coursemenu() {
+    private static void courseMenu() {
         String choice = " ";
         Course course = new Course();
         CourseDAOImpl courseDAOImpl = new CourseDAOImpl();
+
         do {
-            System.out.println("7: Add Course");
-            //System.out.println("7: Add Course to Education");
-            System.out.println("8: Update Course");
-            System.out.println("9: Show all Courses");
-            //  System.out.println("10: Show all Courses By Education");
-            System.out.println("11: Show by Courses");
-            System.out.println("12: Delete Course");
-            //System.out.println("13: Remove Course from Education");
+            System.out.println("1: Add Course" +
+                    "\n2: Update Course" +
+                    "\n3: Show all" +
+                    "\n4: Show by Course" +
+                    "\n5: Delete Course" +
+                    "\nq: Go back to startMenu");
+
             choice = scanner.nextLine().toUpperCase();
             switch (choice) {
-                case "7":
+                case "1":
                     courseDAOImpl.create(course);
                     break;
-                case "8":
+                case "2":
                     courseDAOImpl.update(course);
                     break;
-                case "9":
+                case "3":
                     courseDAOImpl.findAll();
                     break;
-                case "11":
+                case "4":
                     courseDAOImpl.sortByCourse();
                     break;
-                case "12":
+                case "5":
                     courseDAOImpl.delete(course);
                     break;
                 default:
@@ -117,34 +127,32 @@ public class Menu {
     }
 
 
-    private static void studentmenu() {
+    private static void studentMenu() {
         String choice = " ";
         Student student = new Student();
         StudentDAOImpl studentDAOImpl = new StudentDAOImpl();
         do {
-            System.out.println("14: Register Student");
-            System.out.println("15: Update Student info");
-            System.out.println("16: View Student info");
-            System.out.println("17: View all Student info");
-            //System.out.println("18: Add Student to Education");
-            // System.out.println("19: Remove Student from Education");
-            //System.out.println("20: View all Student by Education");
-            System.out.println("21: Delete Student");
+            System.out.println("1: Register Student");
+            System.out.println("2: Update Student info");
+            System.out.println("3: View Student info");
+            System.out.println("4: Show all");
+            System.out.println("5: Delete Student");
             choice = scanner.nextLine().toUpperCase();
+
             switch (choice) {
-                case "14":
+                case "1":
                     studentDAOImpl.create(student);
                     break;
-                case "15":
+                case "2":
                     studentDAOImpl.update(student);
                     break;
-                case "16":
-                    studentDAOImpl.findAll();
-                    break;
-                case "17":
+                case "3":
                     studentDAOImpl.sortByStudent();
                     break;
-                case "21":
+                case "4":
+                    studentDAOImpl.findAll();
+                    break;
+                case "5":
                     studentDAOImpl.delete(student);
                     break;
                 default:
@@ -153,18 +161,51 @@ public class Menu {
             }
         } while (!choice.equals("Q"));
     }
+
+    private static void teacherMenu() {
+        String choice = " ";
+        Teacher teacher = new Teacher();
+        TeacherDAOImpl teacherDAOImpl = new TeacherDAOImpl();
+        Education education;
+        Course course;
+        List<Course> courseSet = new ArrayList<>();
+
+        do {
+            System.out.println("1: Register Teacher");
+            System.out.println("2: Update Teacher info");
+            System.out.println("3: View Teacher info");
+            System.out.println("4: Show all");
+            System.out.println("5: Add Course to Teacher");
+            System.out.println("6: Remove Course from Teacher");
+            System.out.println("7: Delete Teacher");
+            choice = scanner.nextLine().toUpperCase();
+
+            switch (choice) {
+                case "1":
+                    teacherDAOImpl.create(teacher);
+                    break;
+                case "2":
+                    teacherDAOImpl.update(teacher);
+                    break;
+                case "4":
+                    teacherDAOImpl.findAll();
+                    break;
+                case "3":
+                    teacherDAOImpl.sortByTeacher();
+                    break;
+                case "5":
+                    teacherDAOImpl.addCourseToTeacher();
+                    break;
+                case "6":
+                    teacherDAOImpl.deleteCourseFromTeacher();
+                    break;
+                case "7":
+                    teacherDAOImpl.delete(teacher);
+                    break;
+                default:
+                    if (!choice.equals("Q"))
+                        System.out.println("Unexpected value, please try again");
+            }
+        } while (!choice.equals("Q"));
+    }
 }
-
-        /*
-    private static void teachermenu() {
-        System.out.println("14: Register Student");
-        System.out.println("15: Update Student info");
-        System.out.println("16: View Student info");
-        System.out.println("17: View all Student info");
-        System.out.println("18: Add Student to Education");
-        System.out.println("19: Remove Student from Education");
-        System.out.println("20: View all Student by Education");
-        System.out.println("21: Delete Student");
-
-
-*/

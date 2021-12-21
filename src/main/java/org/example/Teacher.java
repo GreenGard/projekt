@@ -1,66 +1,83 @@
 package org.example;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
+@Table(name = "teacher")
 public class Teacher {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String firstname;
-    private String lastname;
-    @ManyToMany(targetEntity = Course.class)
-    private Set courseSet;
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
-    public Teacher(){
-        super();
+    @Column(length = 45)
+    private String firstName;
+    @Column(length = 45)
+    private String lastName;
+
+    @ManyToMany(targetEntity = Course.class,cascade = CascadeType.REMOVE)
+    private List course;
+    public Teacher() {
+
+    }
+
+    public Teacher(String firstName, String lastName, List course) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.course = course;
+    }
+
+    public List getCourse() {
+        return course;
+    }
+
+    public void setCourse(List course) {
+        this.course = course;
+    }
+
+    public void clearList(List<Course> list) {
+        list.clear();
     }
 
 
-    public Teacher(String firstname, String lastname,Set courseSet) {
-        super();
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.courseSet=courseSet;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public int getId() {
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setName(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public Set getCourseSet() {
-        return courseSet;
-    }
-
-    public void setCourseSet(Set courseSet) {
-        this.courseSet = courseSet;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Override
     public String toString() {
         return "Teacher{" +
                 "id=" + id +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+
                 '}';
     }
 }

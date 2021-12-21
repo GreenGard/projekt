@@ -3,31 +3,48 @@ package org.example;
 import javax.persistence.*;
 
 @Entity
+@Table(name="student")
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "id", nullable = false)
+    private Integer id;
+
     private String firstname;
     private String lastname;
     private String email;
     private String stad;
+    private String born;
+
     @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "education_id")
     private Education education;
-//foregn key till education o sedan kunna ta ut elever i en klass
+
     public Student() {
     }
 
-    public Student(String firstname, String lastname, String email, String stad, Education education) {
+    public Student(String firstname, String lastname, String email, String stad, String born, Education education) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.stad = stad;
+        this.born = born;
         this.education = education;
     }
 
     public int getId() {
         return id;
+    }
+
+    public String getBorn() {
+        return born;
+    }
+
+    public void setBorn(String born) {
+        this.born = born;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFirstname() {
@@ -68,7 +85,6 @@ public class Student {
 
     public Education getEducation() {
         return education;
-
     }
 
     @Override
@@ -79,6 +95,7 @@ public class Student {
                 ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +
                 ", stad='" + stad + '\'' +
+                ", born=" + born +
                 ", education=" + education +
                 '}';
     }
